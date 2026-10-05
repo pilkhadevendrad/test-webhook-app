@@ -1,12 +1,11 @@
-js
 import express from "express";
 
-const app = express().use(express.json());
+const app = express();
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "vibecode";
 
-// Meta calls this once to verify your webhook URL
 app.get("/webhook", (req, res) => {
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
@@ -20,7 +19,6 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-// Meta POSTs real webhook events here
 app.post("/webhook", (req, res) => {
   console.log("Incoming webhook message:", JSON.stringify(req.body, null, 2));
   res.sendStatus(200);
